@@ -1,39 +1,48 @@
-package com.eventhub.paprueba.sesionevento.domain;
+package com.eventhub.paprueba.sesionevento.infrastructure.persistence;
+
+import com.eventhub.paprueba.evento.infrastructure.persistence.EventoEntity;
+import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
 
-public class SesionEvento {
+@Entity
+@Table(
+        name = "sesion_evento",
+        schema = "eventhub"
+)
+public class SesionEventoEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "sesion_evento_id")
     private Long sesionEventoId;
-    private Long eventoId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "evento_id",
+            nullable = false
+    )
+    private EventoEntity evento;
+
+    @Column(name = "sede", nullable = false)
     private String sede;
+
+    @Column(name = "sala", nullable = false)
     private String sala;
+
+    @Column(name = "fecha_inicio", nullable = false)
     private OffsetDateTime fechaInicio;
+
+    @Column(name = "fecha_fin", nullable = false)
     private OffsetDateTime fechaFin;
+
+    @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
-    public SesionEvento() {
-    }
-
-    public SesionEvento(
-            Long sesionEventoId,
-            Long eventoId,
-            String sede,
-            String sala,
-            OffsetDateTime fechaInicio,
-            OffsetDateTime fechaFin,
-            OffsetDateTime createdAt,
-            OffsetDateTime updatedAt
-    ) {
-        this.sesionEventoId = sesionEventoId;
-        this.eventoId = eventoId;
-        this.sede = sede;
-        this.sala = sala;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    public SesionEventoEntity() {
     }
 
     public Long getSesionEventoId() {
@@ -44,12 +53,12 @@ public class SesionEvento {
         this.sesionEventoId = sesionEventoId;
     }
 
-    public Long getEventoId() {
-        return eventoId;
+    public EventoEntity getEvento() {
+        return evento;
     }
 
-    public void setEventoId(Long eventoId) {
-        this.eventoId = eventoId;
+    public void setEvento(EventoEntity evento) {
+        this.evento = evento;
     }
 
     public String getSede() {
